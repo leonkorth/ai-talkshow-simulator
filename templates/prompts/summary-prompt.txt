@@ -1,0 +1,6 @@
+Du bekommst einen Redebeitrag aus einer Talkshow von dem Politiker: <Politiker>
+Fasse die inhaltlichen Aussagen in zwei bis drei kurzen Sätzen zusammen.
+Hier ein Beispielformat: "Olaf Scholz sagt, dass..."
+
+Fasse nun folgenden Text zusammen. Der Name des Politikers muss definitiv am Anfang des Satzes stehen.
+<Text>
