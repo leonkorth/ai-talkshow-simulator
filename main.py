@@ -8,7 +8,7 @@ def addToResult(text):
     global result
     result = result + '\n\n' + text
 
-def summarizeAndSave(text, politician):
+def summarizeAnswerAndSaveInHistory(text, politician):
     x = open('templates/prompts/summary-prompt.txt', "r")
     summary_prompt = x.read()
     summary_prompt = summary_prompt.replace("<Politiker>", politician)
@@ -35,7 +35,7 @@ politicians_str = str(politicians)
 
 politicians_names = [politician_1_name, politician_2_name, politician_3_name]
 
-f = open('templates/topics/middle-east.txt', "r")
+f = open('templates/topics/ukraine.txt', "r")
 topic = f.read()
 
 
@@ -67,13 +67,13 @@ politician_answer_user_prompt = f.read()
 politician_answer_user_prompt = politician_answer_user_prompt.replace("<Frage>", moderator_first_question_response)
 politician_answer_response = api.getAnswerFromChatGPT(politician_answer_user_prompt, politician_answer_system_prompt)
 addToResult(politicians_names[0] + ': ' + politician_answer_response)
-summarizeAndSave(politician_answer_response, politicians[0])
+summarizeAnswerAndSaveInHistory(politician_answer_response, politicians[0])
 
 
 #Hauptteil
-p_index = 1
-i = 1
-while i < 5:
+politician_index = 1
+conversation_round_index = 1
+while conversation_round_index < 7:
     f = open('templates/prompts/moderator/moderator-question-system-prompt.txt', "r")
     moderator_question_system_prompt = f.read()
     moderator_question_system_prompt = moderator_question_system_prompt.replace("<PolitikerListe>", politicians_str)
@@ -82,7 +82,7 @@ while i < 5:
 
     f = open('templates/prompts/moderator/moderator-question-user-prompt.txt', "r")
     moderator_question_user_prompt = f.read()
-    moderator_question_user_prompt = moderator_question_user_prompt.replace("<Politiker>", politicians[p_index])
+    moderator_question_user_prompt = moderator_question_user_prompt.replace("<Politiker>", politicians[politician_index])
     moderator_question_user_response = api.getAnswerFromChatGPT(moderator_question_user_prompt, moderator_question_system_prompt)
     addToResult('Anne Will: ' + moderator_question_user_response)
 
@@ -90,21 +90,21 @@ while i < 5:
     politician_answer_system_prompt = f.read()
     politician_answer_system_prompt = politician_answer_system_prompt.replace("<PolitikerListe>", politicians_str)
     politician_answer_system_prompt = politician_answer_system_prompt.replace("<Thema>", topic)
-    politician_answer_system_prompt = politician_answer_system_prompt.replace("<Politiker>", politicians[p_index])
+    politician_answer_system_prompt = politician_answer_system_prompt.replace("<Politiker>", politicians[politician_index])
     politician_answer_system_prompt = politician_answer_system_prompt.replace("<Historie>", wrappedConversationHistory)
 
     f = open('templates/prompts/politician/politician-answer-user-prompt.txt', "r")
     politician_answer_user_prompt = f.read()
     politician_answer_user_prompt = politician_answer_user_prompt.replace("<Frage>", moderator_question_user_response)
     politician_answer_response = api.getAnswerFromChatGPT(politician_answer_user_prompt, politician_answer_system_prompt)
-    addToResult(politicians_names[p_index] + ': ' + politician_answer_response)
-    summarizeAndSave(politician_answer_response, politicians[p_index])
+    addToResult(politicians_names[politician_index] + ': ' + politician_answer_response)
+    summarizeAnswerAndSaveInHistory(politician_answer_response, politicians[politician_index])
 
-    if p_index == 2:
-        p_index = 0
+    if politician_index + 1 == len(politicians):
+        politician_index = 0
     else:
-        p_index += 1
-    i += 1
+        politician_index += 1
+    conversation_round_index += 1
 
 #Abschluss
 f = open('templates/prompts/moderator/moderator-end-system-prompt.txt', "r")
