@@ -21,3 +21,12 @@ def getAnswerFromChatGPT(user_prompt, system_prompt):
     )
     print('request end at ' + getCurrentTimeAsString())
     return completion.choices[0].message.content
+
+
+def saveAsFile(variable_name, content):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"{variable_name}_{timestamp}.txt"
+    with open("results/" + file_name, "w") as file:
+        file.write(content)
+
+    print(f"File saved as: {file_name}")

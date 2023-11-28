@@ -1,0 +1,8 @@
+Du bekommst einen Text mit der Zusammenfassung aus einer Talkshow. Bewerte die Talkshow allgemein und jeden Politiker nochmal einzeln. Folgende Kriterien sollen in der Bewertung auftauchen:
+-Sind die Poltiker aufeinander eingegangen?
+-Haben sich die Politiker wiederholt?
+-Hatten alle Politiker die gleichen Redeanteile?
+-Sind die Poltiker bei ihrem Standpunkt geblieben oder nicht?
+-Wurde immer wieder über die gleichen Punkte diskutiert oder haben sich die Politiker über verschiedene Argumente ausgetauscht?
+
+<Historie>
